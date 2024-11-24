@@ -1,70 +1,146 @@
-# Getting Started with Create React App
+# YT-DLP App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple web application for downloading videos and audio using **yt-dlp**. This guide includes instructions for setting up, running the project, and creating a Linux application for easy startup.
 
-## Available Scripts
+---
+![YT-DLP App Screenshot](Screenshot.png)
 
-In the project directory, you can run:
 
-### `npm start`
+## Features
+- **Backend**: Node.js server using `yt-dlp` to process video downloads.
+- **Frontend**: React-based user interface.
+- **Linux Application**: Easy-to-launch Linux app with a `.desktop` entry.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
+Make sure you have the following installed:
+1. **Node.js** (v14 or later)
+2. **npm** (Node Package Manager)
+3. **Linux** environment (tested on Ubuntu)
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+### 1. Clone the Repository
+```bash
+git clone https://github.com/RoyRoki/YT-DLP-App.git
+cd YT-DLP-App
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. Install Dependencies
+#### Backend:
+```bash
+cd backend
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Frontend:
+```bash
+cd ../
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Running the Application
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Start the Backend
+Run the backend server:
+```bash
+cd backend
+node server.js
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Start the Frontend
+Run the React app:
+```bash
+cd ../
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Creating a Linux Application
 
-## Learn More
+### Step 1: Create a Shell Script
+Create a script to start the backend and frontend together:
+1. Create the script:
+   ```bash
+   nano ~/start-yt-dlp-app.sh
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Add the following code:
+   ```bash
+   #!/bin/bash
+   cd /home/roki/React/yt-dlp-app/backend
+   nohup node server.js > /dev/null 2>&1 &
+   
+   cd /home/roki/React/yt-dlp-app
+   nohup npm start > /dev/null 2>&1 &
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Save and exit the file.
 
-### Code Splitting
+4. Make it executable:
+   ```bash
+   chmod +x ~/start-yt-dlp-app.sh
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Step 2: Create a Desktop Entry
+Add a shortcut for easy access:
+1. Create a `.desktop` file:
+   ```bash
+   nano ~/.local/share/applications/yt-dlp-app.desktop
+   ```
 
-### Analyzing the Bundle Size
+2. Add the following content:
+   ```plaintext
+   [Desktop Entry]
+   Type=Application
+   Name=YT-DLP App
+   Exec=/bin/bash -c "/home/roki/start-yt-dlp-app.sh"
+   Icon=/home/roki/React/yt-dlp-app/public/slylogox.png
+   Terminal=false
+   Categories=Utility;
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3. Save and exit the file.
 
-### Making a Progressive Web App
+4. Reload the application menu:
+   ```bash
+   update-desktop-database ~/.local/share/applications
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+You can now search for "YT-DLP App" in your application menu.
 
-### Advanced Configuration
+### Step 3: (Optional) Set Up Autostart
+To make the app start automatically at boot:
+```bash
+cp ~/.local/share/applications/yt-dlp-app.desktop ~/.config/autostart/
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## Stopping the Application
+To stop the backend and frontend, find the process IDs and kill them:
+1. List running processes:
+   ```bash
+   ps aux | grep server.js
+   ps aux | grep npm
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. Kill the processes:
+   ```bash
+   kill <PID>
+   ```
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Contributing
+Feel free to submit issues or pull requests to improve this project.
+
+---
+
+This `README.md` provides clear instructions for setup, usage, and creating a Linux application for your **yt-dlp-app**.
