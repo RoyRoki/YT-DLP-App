@@ -16,7 +16,7 @@ A simple web application for downloading videos and audio using **yt-dlp**.
 
 ## Screenshot
 
-![YT-DLP App Screenshot](assets/screenshot.png)
+![YT-DLP App Screenshot](screenshot.png)
 
 ---
 
